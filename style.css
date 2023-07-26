@@ -1,0 +1,22 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+canvas {
+  position: absolute;
+  top: 200px;
+  left: 20px;
+
+
+
+}
+
+h1{
+  color: white;
+}

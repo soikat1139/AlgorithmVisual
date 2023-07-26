@@ -1,0 +1,5 @@
+console.log(heap.heappop())
+console.log(heap.heappop())
+console.log(heap.heappop())
+console.log(heap.heappop())
+console.log(heap.heappop())
