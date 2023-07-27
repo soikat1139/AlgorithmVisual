@@ -1,6 +1,3 @@
-
-
-
 let grid=[]
 
 let resolution=30
@@ -23,7 +20,7 @@ let path;
 
 let rgba=["rgba(0, 0, 66, 0.75)","rgba(17, 104, 217, 0.75)","rgba(0, 217, 159, 0.75)","rgba(0, 190, 218, 0.75)"]
 
-
+let minHeap3
 
 
 
@@ -60,21 +57,26 @@ function setup(){
     button.position(0, 20);
     button.mousePressed(runBFS);
     button = createButton('Clear');
-    button.position(0, 40);
+    button.position(0, 80);
     button.mousePressed(clearBoard);
     button = createButton("Dijkstra's Algorithm");
-    button.position(0, 60);
+    button.position(0, 40);
     button.mousePressed(runDijkstra);
+    button = createButton("A* search algorithm");
+    button.position(0, 60);
+    button.mousePressed(runAstar);
+    minHeap3=new Heap()
+
+
+
+
 
     
     async function runDijkstra(){
         dst=String(endPoint[0])+String(endPoint[1])
 
         minHeap=new Heap()
-        let shortest=await  shortestPath(strPoint[0],strPoint[1],grid,dst)
-        let spath= await recursivePath(dst,[],shortest)
-
-         await makeShorterPath(spath)
+        let shortest=shortestPath(strPoint[0],strPoint[1],grid,dst)
        
     
       
@@ -82,28 +84,28 @@ function setup(){
 
 
 
-        // BFS(strPoint[0],strPoint[1],grid)
+        BFS(strPoint[0],strPoint[1],grid)
 
-        // setTimeout( ()=>{
-        //      BFS2(strPoint[0],strPoint[1],grid,1,2)
+        setTimeout( ()=>{
+             BFS2(strPoint[0],strPoint[1],grid,1,2)
          
 
-        //  },400)
-        // //  setTimeout(()=>{
-        // //     BFS2(strPoint[0],strPoint[1],grid,2)
+         },400)
+        //  setTimeout(()=>{
+        //     BFS2(strPoint[0],strPoint[1],grid,2)
 
-        // //  },200)
-        // setTimeout(()=>{
-        //     BFS2(strPoint[0],strPoint[1],grid,2,3)
+        //  },200)
+        setTimeout(()=>{
+            BFS2(strPoint[0],strPoint[1],grid,2,3)
 
-        //  },1000)
-        // setTimeout(async ()=>{
-        //     await BFS2(strPoint[0],strPoint[1],grid,3,4)
-        //     let spath=recursivePath(dst,[],shortest)
+         },1000)
+        setTimeout(async ()=>{
+            await BFS2(strPoint[0],strPoint[1],grid,3,4)
+            let spath=recursivePath(dst,[],shortest)
 
-        //     makeShorterPath(spath)
+            makeShorterPath(spath)
 
-        //  },1600)
+         },1600)
 
    
         
@@ -173,12 +175,11 @@ function setup(){
          },1000)
          setTimeout(async ()=>{
             await BFS2(strPoint[0],strPoint[1],grid,3,4)
-            let spath=recursivePath(dst,[],shortest)
-            console.log(shortest)
+            let spath= await recursivePath(dst,[],shortest)
 
             console.log(spath)
 
-            makeShorterPath(spath)
+            await makeShorterPath(spath)
 
          },1600)
         
@@ -202,7 +203,7 @@ function setup(){
     
 }
 
-function recursivePath(d,path,shortest){
+async function recursivePath(d,path,shortest){
     if(! shortest[d]){
         return 
     }
@@ -327,6 +328,42 @@ async function makeShorterPath(arr){
 
 
 
+async function runAstar(){
+    minHeap3=new Heap()
+    dst=String(endPoint[0])+String(endPoint[1])
+
+    // let shortest= await astar(strPoint[0],strPoint[1],grid,dst,minHeap)
+    // let spath=recursivePath(dst,[],shortest)
+
+    // makeShorterPath(spath)
+
+    astar(strPoint[0],strPoint[1],grid,dst,minHeap3)
+
+    
+//     setTimeout( ()=>{
+//         let minHeap2=new Heap()
+     
+//         astar2(strPoint[0],strPoint[1],grid,dst,minHeap2,1)
+
+//     },400)
+//    //  setTimeout(()=>{
+//    //     BFS2(strPoint[0],strPoint[1],grid,2)
+
+//    //  },200)
+//    setTimeout(()=>{
+//     let minHeap4=new Heap()
+//     astar2(strPoint[0],strPoint[1],grid,dst,minHeap4,2)
+//     },1000)
+//     setTimeout(async ()=>{
+//         let minHeap5=new Heap()
+//         astar2(strPoint[0],strPoint[1],grid,dst,minHeap5,3)
+//     },1600)
+
+
+
+
+
+}
 
 
 
@@ -705,7 +742,7 @@ async function BFS2(r,c,grid,k,val){
 // Dijkstra's Algorithm To Find The Shortes Path
 
 
-async function shortestPath(r,c,grid,dst){
+function shortestPath(r,c,grid,dst){
     const rows=grid.length
     const cols=grid[0].length
 
@@ -720,7 +757,7 @@ async function shortestPath(r,c,grid,dst){
     minHeap.heappush([0,rc,[]])
    
 
-    while (minHeap.heap.length>0){
+    while (minHeap.heap.length>1){
 
         if(shortest[dst]){
             break
@@ -733,15 +770,6 @@ async function shortestPath(r,c,grid,dst){
         if(shortest[n1]){
           continue
         }
-        if(shortest[dst]){
-            break
-        }
-
-        sleep(1)
-        // console.log(r1)
-        // console.log(c1)
-        grid[r1][c1].value=2
-        console.log(n1)
 
         shortest[n1]=sc
 
@@ -767,6 +795,192 @@ async function shortestPath(r,c,grid,dst){
 
 
 
+
+
+
+}
+
+function calculateHcost(r,c,dst){
+
+    const [r1,c1]=pathStore[dst]
+
+    let posX=grid[r][c].posX
+    let posY=grid[r][c].posY
+
+    let posX1=grid[r1][c1].posX
+    let posY1=grid[r1][c1].posY
+
+
+
+    return Math.sqrt((posX1-posX)*(posX1-posX)+(posY1-posY)*(posY1-posY))
+
+}
+
+
+async function astar(r,c,grid,dst,minheap){
+
+    let rows=grid.length
+    
+    let cols=grid[0].length
+
+    let rc=String(r)+String(c)
+
+
+    const neighbors=[[0,1],[0,-1],[1,0],[-1,0]]
+
+    let hcost=calculateHcost(r,c,dst)
+    
+    
+
+    
+
+     minheap.heappush([hcost,0,rc,[]])
+
+     console.log(minheap)
+     console.log(minHeap.heap)
+     console.log(minHeap.value())
+
+   
+
+     const shortest={}
+
+
+     while (minHeap.heap.length>1){
+
+        const [fcost,gcost,n1,src]=minheap.heappop()
+
+
+        if(shortest[n1]){
+            continue
+        }
+        if(shortest[dst]){
+            break
+        }
+
+        shortest[n1]=src
+
+        const [r1,c1]=pathStore[n1]
+
+        await sleep(100)
+
+        grid[r1][c1].value=2
+
+        
+       
+
+        for(const [dr,dc] of neighbors){
+
+            let tempr=r1+dr
+            let tempc=c1+dc
+            let n2=String(tempr)+String(tempc)
+
+            if(tempr<0 || tempc <0 || tempr > rows-1 || tempc > cols-1 || shortest[n2] || grid[tempr][tempc].value==1 ){
+
+                continue
+
+            }
+
+            let w2=grid[tempr][tempc].weight
+
+            let gcost2=gcost+w2
+
+            let hcost2=calculateHcost(tempr,tempc,dst)
+
+            let fcost2=gcost2+hcost2
+
+            
+            minHeap.heappush([fcost2,gcost2,n2,n1])
+        }
+
+        
+     }
+
+     console.log(shortest)
+     return shortest
+
+
+
+}
+
+
+
+async function astar2(r,c,grid,dst,minheap,k){
+
+    let rows=grid.length
+    
+    let cols=grid[0].length
+
+    let rc=String(r) +String(c)
+
+
+    const neighbors=[[0,1],[0,-1],[1,0],[-1,0]]
+
+    let hcost=calculateHcost(r,c,dst)
+    
+    
+
+    
+
+     minheap.heappush([hcost,0,rc,[]])
+
+   
+
+     const shortest={}
+
+
+     while (minHeap.heap.length>1){
+
+        const [fcost,gcost,n1,src]=minheap.heappop()
+
+
+        if(shortest[n1]){
+            continue
+        }
+
+        if(shortest[dst]){
+            break
+        }
+
+        shortest[n1]=src
+
+        const [r1,c1]=pathStore[n1]
+
+        await sleep(100)
+
+        
+
+        grid[r1][c1].rgba=rgba[k]
+       
+
+        for(const [dr,dc] of neighbors){
+
+            let tempr=r1+dr
+            let tempc=c1+dc
+            let n2=String(tempr)+String(tempc)
+
+            if(tempr<0 || tempc <0 || tempr > rows-1 || tempc > cols-1 || shortest[n2] || grid[tempr][tempc].value==1 ){
+
+                continue
+
+            }
+
+            let w2=grid[tempr][tempc].weight
+
+            let gcost2=gcost+w2
+
+            let hcost2=calculateHcost(tempr,tempc,dst)
+
+            let fcost2=gcost2+hcost2
+
+            
+            minHeap.heappush([fcost2,gcost2,n2,n1])
+        }
+
+        
+     }
+
+   
+   
 
 
 
@@ -1097,10 +1311,11 @@ class Heap{
     }
 
     heappush(val){
-        this.heap.push(val)
+        
 
         if(Array.isArray(val)){
-            this.heap[0]=[0,0]
+            this.heap=[[0,0]]
+            this.heap.push(val)
          let i=this.heap.length-1
 
 
@@ -1117,6 +1332,7 @@ class Heap{
 
         }
         else{
+            this.heap.push(val)
 
             let i=this.heap.length-1
 
@@ -1135,6 +1351,11 @@ class Heap{
 
          
 
+    }
+    value(){
+
+        console.log(this.heap.length)
+        return this.heap.length
     }
 
 
