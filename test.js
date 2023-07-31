@@ -1,7 +1,7 @@
 function isValid(matrix, x, y) {
     const numRows = matrix.length;
     const numCols = matrix[0].length;
-    return x >= 0 && x < numRows && y >= 0 && y < numCols && matrix[x][y] !== 0;
+    return x >= 0 && x < numRows && y >= 0 && y < numCols && matrix[x][y] !== 1;
   }
   
   function shortestPath2D(matrix, sourceX, sourceY, targetX, targetY) {
@@ -27,6 +27,7 @@ function isValid(matrix, x, y) {
       }
   
       visited.add(`${x},${y}`);
+      
   
       const neighbors = [
         [x + 1, y],

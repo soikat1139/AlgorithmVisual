@@ -78,17 +78,17 @@ function setup(){
 
     
     async function runDijkstra(){
+        
         dst=String(endPoint[0])+String(endPoint[1])
 
-        console.log(dst)
-        console.log(`${strPoint[0]},${strPoint[1]}`)
-        console.log(pathStore)
-
+    
         minHeap=new Heap()
         let shortest=shortestPath(strPoint[0],strPoint[1],grid,dst)
-        console.log(shortest)
+       
             //  let spath=await recursivePath(dst,[],shortest)
             // console.log(spath)
+
+            makeShorterPath(shortest)
     
       
        
@@ -168,33 +168,28 @@ function setup(){
 
         
     
-        const apath= await AstarAlgorith(start,end,grid)
+        AstarAlgorith(start,end,grid)
 
-        console.log(apath)
-        makeShorterPath2(apath)
+        
+        
 
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        setTimeout(()=>{
+            AstarAlgorith2(start,end,grid,1)
+
+        },200)
+        setTimeout(()=>{
+            AstarAlgorith2(start,end,grid,2)
+
+        },400)
+        setTimeout(async ()=>{
+             AstarAlgorith2(start,end,grid,3)
+            const apath=await AstarAlgorith(start,end,grid)
+            console.log(apath)
+             makeShorterPath2(apath)
+
+        },600)
+
     
         // minHeap3=new Heap()
         // dst=String(endPoint[0])+String(endPoint[1])
@@ -237,7 +232,11 @@ function setup(){
         dst=String(endPoint[0])+String(endPoint[1])
 
         minHeap=new Heap()
-        let shortest=shortestPath(strPoint[0],strPoint[1],grid,dst)
+        let shortest=shortestPath2D(grid, strPoint[0],strPoint[1],endPoint[0], endPoint[1])
+        
+       console.log(shortest)
+       
+
         
        
 
@@ -258,11 +257,11 @@ function setup(){
          },1000)
          setTimeout(async ()=>{
             await BFS2(strPoint[0],strPoint[1],grid,3,4)
-            let spath= await recursivePath(dst,[],shortest)
+            
 
-            console.log(spath)
+           
 
-            await makeShorterPath(spath)
+             makeShorterPath(shortest)
 
          },1600)
         
@@ -403,17 +402,17 @@ async function makeShorterPath(arr){
 
 
     for(let i=1;i<arr.length-1;i++){
-        const [r,c]=pathStore[arr[i]]
+        // const [r,c]=pathStore[arr[i]]
         await sleep(0.5)
 
-        grid[r][c].value=3
+        grid[arr[i][0]][arr[i][1]].value=3
     }
 
 }
 async function makeShorterPath2(arr){
 
 
-    for(let i=1;i<arr.length-1;i++){
+    for(let i=arr.length-1;i>-1;i--){
         // const [r,c]=pathStore[arr[i]]
         await sleep(0.5)
 
@@ -802,6 +801,55 @@ async function BFS2(r,c,grid,k,val){
 }
 
 
+function isValid(matrix, x, y) {
+    const numRows = matrix.length;
+    const numCols = matrix[0].length;
+    return x >= 0 && x < numRows && y >= 0 && y < numCols && matrix[x][y] !== 1;
+  }
+  
+  function shortestPath2D(matrix, sourceX, sourceY, targetX, targetY) {
+    const numRows = matrix.length;
+    const numCols = matrix[0].length;
+  
+    if (!isValid(matrix, sourceX, sourceY) || !isValid(matrix, targetX, targetY)) {
+      return null;
+    }
+  
+    const queue = [[sourceX, sourceY, []]];
+    const visited = new Set();
+  
+    while (queue.length > 0) {
+      const [x, y, path] = queue.shift();
+  
+      if (x === targetX && y === targetY) {
+        return [...path, [x, y]];
+      }
+  
+      if (visited.has(`${x},${y}`)) {
+        continue;
+      }
+  
+      visited.add(`${x},${y}`);
+      
+  
+      const neighbors = [
+        [x + 1, y],
+        [x - 1, y],
+        [x, y + 1],
+        [x, y - 1],
+      ];
+  
+      for (const [nx, ny] of neighbors) {
+        if (isValid(matrix, nx, ny) && !visited.has(`${nx},${ny}`)) {
+          queue.push([nx, ny, [...path, [x, y]]]);
+        }
+      }
+    }
+  
+    return null;
+  }
+
+
 // Dijkstra's Algorithm To Find The Shortes Path
 
 
@@ -825,7 +873,10 @@ function shortestPath(r,c,grid,dst){
     while (minHeap.heap.length>1){
 
         if(shortest[dst]){
-            break
+            console.log(shortest)
+
+            return shortest[dst]
+            
         }
 
         const [w1,n1,sc]=minHeap.pop()
@@ -862,7 +913,7 @@ function shortestPath(r,c,grid,dst){
         }
     }
 
-    return shortest
+ 
 
 
 
@@ -1014,6 +1065,108 @@ async function AstarAlgorith(start,end,grid){
     }
     return path
 }
+async function AstarAlgorith2(start,end,grid,val){
+    
+
+    let ROWS=grid.length
+    let COLS=grid[0].length
+
+    const neighbors=[[0,1],[0,-1],[1,0],[-1,0]]
+
+
+
+    let path=[]
+
+    let openSets=[]
+
+    let closedSets=[]
+
+
+    openSets.push(start)
+
+    
+
+   
+
+    
+
+    while (openSets.length>0){
+    
+
+        let winnerIndex=0
+
+        for(let i=0;i<openSets.length;i++){
+            if(openSets[i].f<openSets[winnerIndex].f){
+                winnerIndex=i
+            }
+        }
+
+      
+
+        let current=openSets[winnerIndex]
+
+        if(current===end){
+
+            break
+        }
+
+        removeFromArray(openSets,current)
+        
+
+      
+        closedSets.push(current)
+        await sleep(1)
+
+        current.rgba=rgba[val]
+       
+
+        for(let [dr,dc] of neighbors){
+            
+
+            if(current.i+dr<0 || current.j+dc<0 || current.i+dr>ROWS-1 || current.j+dc>COLS-1){
+               
+                continue
+
+            }
+
+            let neighbor=grid[current.i+dr][current.j+dc]
+
+            if(neighbor.value===1 || closedSets.includes(neighbor)){
+                continue
+            }
+
+            let tempG=current.g+1
+
+           if(openSets.includes(neighbor)){
+            if(tempG<neighbor.g){
+                neighbor.g=tempG
+            }
+
+           }
+           else{
+            neighbor.g=tempG
+
+            openSets.push(neighbor)
+           }
+
+           neighbor.h=heuristic(neighbor,end)
+
+           neighbor.f=neighbor.g +neighbor.h
+
+           neighbor.previous=current
+           
+
+        }
+
+    }
+    return path
+}
+
+
+
+
+
+
 
 async function astar(r,c,grid,dst,minheap){
 
