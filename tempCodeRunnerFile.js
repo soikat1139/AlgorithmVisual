@@ -1,5 +1,1 @@
-console.log(heap.heappop())
-console.log(heap.heappop())
-console.log(heap.heappop())
-console.log(heap.heappop())
-console.log(heap.heappop())
+heap-js
