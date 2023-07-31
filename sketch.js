@@ -22,15 +22,18 @@ let path;
 
 let rgba=["rgba(0, 0, 66, 0.75)","rgba(17, 104, 217, 0.75)","rgba(0, 217, 159, 0.75)","rgba(0, 190, 218, 0.75)"]
 
-let minHeap3
+let speed;
 
 
 
 function setup(){
     // createCanvas(1850,700)
-    createCanvas(windowWidth-20,windowHeight-200)
+    createCanvas(windowWidth-25,windowHeight-200)
     angleMode(DEGREES)
     // let {Heap} =require("heap-js")
+    speed=1
+
+    
 
 
     rows=floor(height/resolution)
@@ -55,21 +58,32 @@ function setup(){
    
     
    
-    button = createButton('DFS');
-    button.position(0, 0);
-    button.mousePressed(runBG);
-    button = createButton('BFS');
-    button.position(0, 20);
-    button.mousePressed(runBFS);
-    button = createButton('Clear');
-    button.position(0, 80);
-    button.mousePressed(clearBoard);
-    button = createButton("Dijkstra's Algorithm");
-    button.position(0, 40);
-    button.mousePressed(runDijkstra);
-    button = createButton("A* search algorithm");
-    button.position(0, 60);
-    button.mousePressed(runAstar);
+    // button = createButton('DFS');
+    // button.position(0, 0);
+    // button.mousePressed(runBG);
+    // button = createButton('BFS');
+    // button.position(0, 20);
+    // button.mousePressed(runBFS);
+    // button = createButton('Clear');
+    // button.position(0, 80);
+    // button.mousePressed(clearBoard);
+    // button = createButton("Dijkstra's Algorithm");
+    // button.position(0, 40);
+    // button.mousePressed(runDijkstra);
+    // button = createButton("A* search algorithm");
+    // button.position(0, 60);
+    // button.mousePressed(runAstar);
+
+
+    //Buttons:
+    const bfsButton=document.querySelector('#BFS')
+    bfsButton.addEventListener("click",runBFS)
+    const speedButton=document.querySelector('#BFS')
+    speedButton.addEventListener("click",()=>{
+        speed=0.1
+        console.log(speed)
+
+    })
     
 
 
@@ -81,43 +95,45 @@ function setup(){
         
         dst=String(endPoint[0])+String(endPoint[1])
 
+        let start=grid[strPoint[0]][strPoint[1]]
+
+        let end=grid[endPoint[0]][endPoint[1]]
+
     
-        minHeap=new Heap()
-        let shortest=shortestPath(strPoint[0],strPoint[1],grid,dst)
+        
+     
        
             //  let spath=await recursivePath(dst,[],shortest)
             // console.log(spath)
 
-            makeShorterPath(shortest)
+            // makeShorterPath(shortest)
+
+          
     
       
        
+        BFS(strPoint[0],strPoint[1],grid)
 
-
-
-        // BFS(strPoint[0],strPoint[1],grid)
-
-        // setTimeout( ()=>{
-        //      BFS2(strPoint[0],strPoint[1],grid,1,2)
+        setTimeout( ()=>{
+             BFS2(strPoint[0],strPoint[1],grid,1,2)
          
 
-        //  },400)
-        // //  setTimeout(()=>{
-        // //     BFS2(strPoint[0],strPoint[1],grid,2)
+         },400)
+        //  setTimeout(()=>{
+        //     BFS2(strPoint[0],strPoint[1],grid,2)
 
-        // //  },200)
-        // setTimeout(()=>{
-        //     BFS2(strPoint[0],strPoint[1],grid,2,3)
+        //  },200)
+        setTimeout(()=>{
+            BFS2(strPoint[0],strPoint[1],grid,2,3)
 
-        //  },1000)
-        // setTimeout(async ()=>{
-        //     await BFS2(strPoint[0],strPoint[1],grid,3,4)
-        //     let spath=await recursivePath(dst,[],shortest)
-        //     console.log(spath)
+         },1000)
+        setTimeout(async ()=>{
+            await BFS2(strPoint[0],strPoint[1],grid,3,4)
+            const apath= await Dijkstra(start,end,grid)
+            console.log(apath)
+            makeShorterPath2(apath)
 
-        //     makeShorterPath(spath)
-
-        //  },1600)
+         },1600)
 
    
         
@@ -134,7 +150,7 @@ function setup(){
         grid[endPoint[0]][endPoint[1]].setSEpoint(false,true)
     }
 
-    async function runBG(){
+    async function runDFS(){
          
          dfs(strPoint[0],strPoint[1],grid,1,path)
        
@@ -185,7 +201,6 @@ function setup(){
         setTimeout(async ()=>{
              AstarAlgorith2(start,end,grid,3)
             const apath=await AstarAlgorith(start,end,grid)
-            console.log(apath)
              makeShorterPath2(apath)
 
         },600)
@@ -518,10 +533,13 @@ function draw(){
 
             }
             else{
-                fill(255, 255, 255)
+                // fill(255, 255, 255)
+                fill('#fff')
 
 
                 stroke(32,178,170)
+                // stroke('#afd8f8')
+                // stroke(0)
                 strokeWeight(1)
                 rect(x,y,resolution-1,resolution-1)
 
@@ -728,7 +746,7 @@ async function BFS(r,c,grid){
 
                 }
 
-                await sleep(1)
+                await sleep(speed)
 
                 queue.append([r+dr,c+dc])
                 grid[r+dr][c+dc].visited=true
@@ -781,7 +799,7 @@ async function BFS2(r,c,grid,k,val){
 
                 }
 
-                await sleep(1)
+                await sleep(speed)
 
                 queue.append([r+dr,c+dc])
                 grid[r+dr][c+dc].setVisited(val)
@@ -1161,6 +1179,109 @@ async function AstarAlgorith2(start,end,grid,val){
     }
     return path
 }
+
+async function Dijkstra(start,end,grid=[]){
+
+    let ROWS=grid.length
+    let COLS=grid[0].length
+
+
+   
+    const neighbors=[[0,1],[0,-1],[1,0],[-1,0]]
+
+
+
+    let path=[]
+
+    let openSet=[]
+
+    let closedSet=[]
+
+    openSet.push(start)
+
+    
+
+    while (openSet.length>0){
+
+
+        let winnerIndex=0
+
+        for(let i=0;i<openSet.length;i++){
+            if(openSet[i].g<openSet[winnerIndex].g){
+                winnerIndex=i
+            }
+        }
+
+      
+
+        let current=openSet[winnerIndex]
+
+        if(current===end){
+
+            let temp=current
+
+            path.push(current)
+            
+            while(temp.previous){
+                path.push(temp.previous)
+                temp=temp.previous
+            }
+
+           
+
+
+            break
+        }
+
+        removeFromArray(openSet,current)
+      
+        closedSet.push(current)
+        
+
+        for(let [dr,dc] of neighbors){
+            
+
+            if(current.i+dr<0 || current.j+dc<0 || current.i+dr>ROWS-1 || current.j+dc>COLS-1){
+               
+                continue
+
+            }
+
+            let neighbor=grid[current.i+dr][current.j+dc]
+
+            if(neighbor.value===1 || closedSet.includes(neighbor)){
+                continue
+            }
+
+            let tempG=current.g+1
+
+           if(openSet.includes(neighbor)){
+            if(tempG<neighbor.g){
+                neighbor.g=tempG
+            }
+
+           }
+           else{
+            neighbor.g=tempG
+
+            openSet.push(neighbor)
+           }
+
+          
+
+         
+
+           neighbor.previous=current
+           
+
+        }
+
+    }
+
+    return path
+
+}
+
 
 
 
