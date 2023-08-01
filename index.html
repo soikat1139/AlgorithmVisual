@@ -2,11 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Algorithm</title>
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style.css" />
 
     <script src="libraries/p5.min.js"></script>
     <script src="libraries/p5.sound.min.js"></script>
@@ -15,30 +15,114 @@
   </head>
 
   <body>
-
     <div id="Header">
+      <div  class="menu">
 
-      <div id="menu">
-        <h1>Algorithm Visalizer</h1>
-        <div>
-          <p>
-            Select Algorithm
-          </p>
-        <div>
-          <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M480-360 280-559h400L480-360Z"/></svg>
+
+        <h1>Algorithm Visualizer</h1>
+
+
+        <div id="algo" class="hg">
+          <p >Select Algorithm</p>
+          <div>
+            <svg 
+              xmlns="http://www.w3.org/2000/svg"
+              height="48"
+              viewBox="0 -960 960 960"
+              width="48"
+            >
+              <path d="M480-360 280-559h400L480-360Z" />
+            </svg>
+          </div>
         </div>
 
+
+
+
+        <div id="sort"  class="hg sort">
+          <p >Sorting Algorithms</p>
+          <div>
+            <svg 
+              xmlns="http://www.w3.org/2000/svg"
+              height="48"
+              viewBox="0 -960 960 960"
+              width="48"
+            >
+              <path d="M480-360 280-559h400L480-360Z" />
+            </svg>
+          </div>
         </div>
-      
-      </div>
-      
-      
+
+
+
+        <div id="maze"  class="hg maze">
+          <p >Create Maze Pattern</p>
+          <div>
+            <svg 
+              xmlns="http://www.w3.org/2000/svg"
+              height="48"
+              viewBox="0 -960 960 960"
+              width="48"
+            >
+              <path d="M480-360 280-559h400L480-360Z" />
+            </svg>
+          </div>
+        </div>
+
+
+    
+
+
+
+    
+
+
       
     </div>
 
+
+
+    <div id="options" class="hidden" >
+      <ul id="list" class="hidden">
+        <li>Depth-first search</li>
+        <li>Breath-first search</li>
+        <li>DIJKSTRA's Algorithm</li>
+        <li>A* star Algorithm </li>
+        <li>BackTracking Algorithm </li>
+      </ul>
+      
+    </div>
+
+    
+
+    <div id="options2" class="activeOption2" >
+      <ul id="list2" class="">
+        <li>Insertion Sort</li>
+        <li>Merge Sort</li>
+        <li>Quick Sort</li>
+        <li>Bubble Sort </li>
+        <li>Bucket Sort </li>
+      </ul>
+    </div>
+
+
+
+    <div id="options3" class="activeOption3" >
+      <ul id="list3" class="">
+        <li>Generate Random maze</li>
+        <li>Recurcive Horizontal</li>
+        <li>Recurcive Vertical</li>
+        <li>Simple Maze For Fun </li>
+        <li>Stair Case Pattern </li>
+      </ul>
+    </div>
+
+
+
+
     <button id="BFS">BFS Algorithm</button>
     <button id="speed">Fast</button>
- 
+
     <script src="sketch.js"></script>
   </body>
 </html>

@@ -23,8 +23,17 @@ let path;
 let rgba=["rgba(0, 0, 66, 0.75)","rgba(17, 104, 217, 0.75)","rgba(0, 217, 159, 0.75)","rgba(0, 190, 218, 0.75)"]
 
 let speed;
+let svgImage;
+let flag;
+
+function preload() {
+    // Replace 'your-svg-url' with the actual URL of your SVG file
+    svgImage = loadImage('./Public/svgStart.svg', 'svg');
+    flag = loadImage('./Public/flag.svg', 'svg');
+  }
 
 
+  
 
 function setup(){
     // createCanvas(1850,700)
@@ -43,6 +52,7 @@ function setup(){
     // cols=8
     path=new Path()
     minHeap=new Heap()
+    found=new Found()
  
 
     grid=make2dArray(rows,cols)
@@ -83,6 +93,33 @@ function setup(){
         speed=0.1
         console.log(speed)
 
+    })
+    const options=document.querySelector("#options")
+    const list=document.querySelector("#list")
+    const algoOptions=document.querySelector('#algo')
+
+    algoOptions.addEventListener('click',()=>{
+        if(algoOptions.classList.contains("highlight")){
+            algoOptions.classList.remove("highlight")
+            algoOptions.classList.add("hg")
+        }
+        else{
+            algoOptions.classList.add("highlight")
+            algoOptions.classList.remove("hg")
+        }
+        if(options.classList.contains("hidden") && list.classList.contains("hidden")){
+            options.classList.remove("hidden")
+            list.classList.remove("hidden")
+            options.classList.add("activeOption")
+          
+
+        }
+        else{
+            options.classList.add("hidden")
+            list.classList.add("hidden")
+            options.classList.remove("activeOption")
+
+        }
     })
     
 
@@ -249,7 +286,7 @@ function setup(){
         minHeap=new Heap()
         let shortest=shortestPath2D(grid, strPoint[0],strPoint[1],endPoint[0], endPoint[1])
         
-       console.log(shortest)
+       
        
 
         
@@ -282,7 +319,7 @@ function setup(){
         
  
     }  
-    found=new Found()
+  
     
    
 
@@ -451,7 +488,8 @@ function draw(){
         
     }
 
-    background(255, 255, 255)
+    // background(255, 255, 255)
+    background("#fff")
 
     for(let i=0;i<grid.length;i++){
         for(let j=0;j<grid[0].length;j++){
@@ -465,16 +503,19 @@ function draw(){
            
         
               if(grid[i][j].strPoint){
-                noStroke()
+
+                stroke(32,178,170)
                 fill(0)
-                rect(x,y,resolution,resolution)
+                // rect(x,y,resolution,resolution)
+                image(svgImage,x,y,resolution-3,resolution-3)
 
 
               }
               else if(grid[i][j].endPoint){
-                noStroke()
+                stroke(0)
                 fill(220,20,60)
-                rect(x,y,resolution,resolution)
+                // rect(x,y,resolution,resolution)
+                image(flag,x,y,resolution-1,resolution-1)
 
 
               }
@@ -822,7 +863,7 @@ async function BFS2(r,c,grid,k,val){
 function isValid(matrix, x, y) {
     const numRows = matrix.length;
     const numCols = matrix[0].length;
-    return x >= 0 && x < numRows && y >= 0 && y < numCols && matrix[x][y] !== 1;
+    return x >= 0 && x < numRows && y >= 0 && y < numCols && matrix[x][y].value !== 1;
   }
   
   function shortestPath2D(matrix, sourceX, sourceY, targetX, targetY) {
@@ -832,6 +873,7 @@ function isValid(matrix, x, y) {
     if (!isValid(matrix, sourceX, sourceY) || !isValid(matrix, targetX, targetY)) {
       return null;
     }
+
   
     const queue = [[sourceX, sourceY, []]];
     const visited = new Set();
@@ -1248,8 +1290,10 @@ async function Dijkstra(start,end,grid=[]){
             }
 
             let neighbor=grid[current.i+dr][current.j+dc]
+            
 
             if(neighbor.value===1 || closedSet.includes(neighbor)){
+                
                 continue
             }
 
