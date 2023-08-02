@@ -28,6 +28,7 @@ let flag;
 let arr=[]
 let selectedAlgo;
 let userInteractionArray
+let isMaze=false
 
 function preload() {
     
@@ -369,13 +370,27 @@ function setup(){
     
 
     function clearBoard(){
-        minHeap=new Heap()
+     if(isMaze){
+        for(let i =0;i<rows;i++){
+            for(let j=0;j<cols;j++){
+                if(grid[i][j].value==2 || grid[i][j].value==3){
+                    grid[i][j].value=0
+                }
+
+            }
+        }
+
+     }
+     else{
         grid=make2dArray(rows,cols)
         strPoint=[floor(random(rows)),floor(random(cols))]
         endPoint=[floor(random(rows)),floor(random(cols))]
         
         grid[strPoint[0]][strPoint[1]].setSEpoint(true,false)
         grid[endPoint[0]][endPoint[1]].setSEpoint(false,true)
+
+     }
+      
     }
 
     async function runDFS(){
@@ -2664,6 +2679,7 @@ const mazeArray=[
 async function recursiveMaze(grid,start,end){
     let ROWS=grid.length;
     let COLS=grid[0].length
+    isMaze=true
 
     for(let i=0;i<ROWS;i++){
         for(let j=0;j<COLS;j++){
