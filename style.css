@@ -1,9 +1,12 @@
 
 /* Body Section or preliminary CSS */
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&family=Slabo+27px&display=swap');
+
 html, body {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
   
 }
 body {
@@ -11,6 +14,7 @@ body {
   padding: 0;
   overflow: hidden;
   background-color: #fff;
+  
 }
 
 canvas {
@@ -34,8 +38,17 @@ canvas {
   color:#ffffff;
   justify-content:center;
   align-items: center;
+  margin-bottom: 0px;
+  /* border: 2px solid red; */
 
   
+}
+#Header h1 a{
+  text-decoration: none;
+  color: #ffffff;
+}
+#Header h1 a:hover{
+  color: #09ba6a;
 }
 
 
@@ -186,7 +199,7 @@ canvas {
 
 
 
-.sort svg{
+#sort svg{
   fill: #fff;
   height: 30px;
   margin: 0px;
@@ -194,7 +207,7 @@ canvas {
 }
 
 
-.sort{
+#sort{
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -307,7 +320,7 @@ canvas {
 
 /* Menu Options For Creating Maze */
 
-.maze svg{
+#maze svg{
   fill: #fff;
   height: 30px;
   margin: 0px;
@@ -315,7 +328,7 @@ canvas {
 }
 
 
-.maze{
+#maze{
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -420,4 +433,114 @@ canvas {
  .highlight div:hover{
   fill:#fff;
   
+}
+
+
+/* This section is for visualize button */
+
+#vsb{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 20px;
+  cursor: pointer;
+  height: 35px;
+  background-color: #1abc9c;
+  padding: 5px;
+  padding-left: 20px;
+  width: 120px;
+  border-radius: 8px;
+
+
+}
+#vsb svg{
+  fill: #fff;
+  height: 25px;
+  margin: 0px;
+  margin-top: 6px;
+}
+#vsb:hover{
+  scale: 1.1;
+  background-color: #13a689;
+}
+
+
+/* Clear Button */
+
+#clr svg{
+  fill: #fff;
+  height: 20px;
+  margin: 0px;
+  margin-top: 6px;
+}
+
+
+#clr{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 20px;
+  cursor: pointer;
+  height: 30px;
+}
+
+
+
+
+/* Hero Section */
+
+#Hero{
+  /* background-color: #34495e; */
+  height: 70px;
+  width: 100vw;
+  margin-top:-8px;
+  
+  color:#ffffff;
+  justify-content:center;
+  align-items: center;
+  /* border: 2px solid red; */
+
+  
+}
+
+
+
+/* MainMenuSections */
+
+.specs{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  
+  padding-top: 10px;
+  padding-left: 5px;
+}
+.specs .spec{
+  color: black;
+  display: flex;
+  flex-direction:row;
+  margin-left: 20px;
+  font-size: 20px;
+  justify-content: center;
+  align-items: center;
+  
+font-family: 'Slabo 27px', serif;
+
+}
+.specs .spec svg{
+  height: 30px;
+}
+
+
+#HeroText{
+  color: black;
+  /* border: 2px solid red; */
+  font-family: 'Slabo 27px', serif;
+  font-size: 20px;
+}
+#HeroText p{
+  text-align: center;
 }

@@ -19,7 +19,7 @@
       <div  class="menu">
 
 
-        <h1>Algorithm Visualizer</h1>
+        <h1><a href="/">Algorithm Visualizer</a></h1>
 
 
         <div id="algo" class="hg">
@@ -39,7 +39,7 @@
 
 
 
-        <div id="sort"  class="hg sort">
+        <div id="sort"  class="hg ">
           <p >Sorting Algorithms</p>
           <div>
             <svg 
@@ -55,7 +55,7 @@
 
 
 
-        <div id="maze"  class="hg maze">
+        <div id="maze"  class="hg ">
           <p >Create Maze Pattern</p>
           <div>
             <svg 
@@ -66,6 +66,21 @@
             >
               <path d="M480-360 280-559h400L480-360Z" />
             </svg>
+          </div>
+        </div>
+
+        <div id="vsb"  class="vsc ">
+          <p >Visualize!</p>
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M481-29 346-160H160v-186L26-480l134-134v-186h186l135-134 133 134h186v186l134 134-134 134v186H614L481-29Zm0-84 107.917-107H740v-151l109-109-109-109v-151H589L481-849 371-740H220v151L111-480l109 109v151h150l111 107Zm-1-368Zm0 256 75.857-75.436H660V-404l76-76-75.899-75.899v-104.202H555.899L480-736l-75.9 75.899H299.9v104.202L224-480l76 75.857V-300h102l78 75Z"/></svg>
+        
+          </div>
+        </div>
+
+        <div id="clr"  class="hg ">
+          <p >Clear Path</p>
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M360-200q-22 0-40-11.5T289-241L120-480l169-239q13-18 31-29.5t40-11.5h420q24.75 0 42.375 17.625T840-700v440q0 24.75-17.625 42.375T780-200H360Zm420-60v-440 440Zm-431 0h431v-440H349L195-480l154 220Zm99-66 112-112 112 112 43-43-113-111 111-111-43-43-110 112-112-112-43 43 113 111-113 111 43 43Z"/></svg>
           </div>
         </div>
 
@@ -80,15 +95,57 @@
       
     </div>
 
+    <div id="Hero">
+
+
+     <div class="specs">
+       <div class="spec">
+         <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="m360-285 195-195-195-195-195 195 195 195Zm0 85L80-480l280-280 250 250h270v60H610L360-200Zm0-280Z"/></svg>
+        <p>Start Icon</p>
+       </div>
+
+       <div class="spec">
+        <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M200-120v-680h343l19 86h238v370H544l-18.933-85H260v309h-60Zm300-452Zm95 168h145v-250H511l-19-86H260v251h316l19 85Z"/></svg>
+        <p>Goal Icon</p>
+       </div>
+   
+
+
+      </div>
+
+    
+
+     
+
+  
+       
+
+       
+
+ 
+   
+
+    
+      
+    </div>
+
+
+    <div id="HeroText">
+      <p>Please Select An Algorithm To Start</p>
+
+    </div>
+
+
+
 
 
     <div id="options" class="hidden" >
       <ul id="list" class="hidden">
-        <li>Depth-first search</li>
-        <li>Breath-first search</li>
-        <li>DIJKSTRA's Algorithm</li>
-        <li>A* star Algorithm </li>
-        <li>BackTracking Algorithm </li>
+        <li class="slcalgo">Depth-first search</li>
+        <li class="slcalgo">Breath-first search</li>
+        <li class="slcalgo">DIJKSTRA's Algorithm</li>
+        <li class="slcalgo">A* star Algorithm</li>
+        <li class="slcalgo">BackTracking Algorithm</li>
       </ul>
 
     </div>
@@ -111,19 +168,22 @@
 
     <div id="options3" class="hidden" >
       <ul id="list3" class="hidden">
-        <li>Generate Random maze</li>
-        <li>Recurcive Horizontal</li>
-        <li>Recurcive Vertical</li>
-        <li>Simple Maze For Fun </li>
-        <li>Stair Case Pattern </li>
+        <li class="mz">Generate Random maze</li>
+        <li class="mz">Recurcive Horizontal</li>
+        <li class="mz">Recurcive Vertical</li>
+        <li class="mz">Simple Maze For Fun </li>
+        <li class="mz">Stair Case Pattern </li>
       </ul>
     </div>
 
 
+ 
 
 
-    <button id="BFS">BFS Algorithm</button>
-    <button id="speed">Fast</button>
+
+
+    <!-- <button id="BFS">BFS Algorithm</button>
+    <button id="speed">Fast</button> -->
 
     <script src="sketch.js"></script>
   </body>

@@ -2,9 +2,9 @@
 
 let grid=[]
 
-let resolution=30
+let resolution=30;
 
-let rows,cols
+let rows,cols;
 let isMousePressedbyme=false
 
 let strPoint=[]
@@ -25,6 +25,9 @@ let rgba=["rgba(0, 0, 66, 0.75)","rgba(17, 104, 217, 0.75)","rgba(0, 217, 159, 0
 let speed;
 let svgImage;
 let flag;
+let arr=[]
+let selectedAlgo;
+let userInteractionArray
 
 function preload() {
     // Replace 'your-svg-url' with the actual URL of your SVG file
@@ -65,6 +68,9 @@ function setup(){
     let dst=String(endPoint[0])+String(endPoint[1])
 
     
+
+   userInteractionArray=[]
+
    
     
    
@@ -86,17 +92,39 @@ function setup(){
 
 
     //Buttons:
-    const bfsButton=document.querySelector('#BFS')
-    bfsButton.addEventListener("click",runBFS)
-    const speedButton=document.querySelector('#BFS')
-    speedButton.addEventListener("click",()=>{
-        speed=0.1
-        console.log(speed)
+    // const bfsButton=document.querySelector('#BFS')
+    // bfsButton.addEventListener("click",runBFS)
+    // const speedButton=document.querySelector('#BFS')
+    // speedButton.addEventListener("click",()=>{
+    //     speed=0.1
+    //     console.log(speed)
 
-    })
+    // })
+   
+
+
     const options=document.querySelector("#options")
     const list=document.querySelector("#list")
     const algoOptions=document.querySelector('#algo')
+
+    const options2=document.querySelector("#options2")
+    const list2=document.querySelector("#list2")
+    const sortOptions=document.querySelector('#sort')
+
+
+    const options3=document.querySelector("#options3")
+    const list3=document.querySelector("#list3")
+    const mazeOptions=document.querySelector('#maze')
+    const algoSelect=document.querySelectorAll(".slcalgo")
+    const mazeSelect=document.querySelectorAll(".mz")
+    const visualizeBtn=document.querySelector("#vsb")
+    const clearBtn=document.querySelector("#clr")
+    const HeroText=document.querySelector("#HeroText")
+
+
+
+
+
 
     algoOptions.addEventListener('click',()=>{
         if(algoOptions.classList.contains("highlight")){
@@ -121,8 +149,150 @@ function setup(){
 
         }
     })
+
+
+    sortOptions.addEventListener('click',()=>{
+        if(sortOptions.classList.contains("highlight")){
+            sortOptions.classList.remove("highlight")
+            sortOptions.classList.add("hg")
+        }
+        else{
+            sortOptions.classList.add("highlight")
+            sortOptions.classList.remove("hg")
+        }
+        if(options2.classList.contains("hidden") && list.classList.contains("hidden")){
+            options2.classList.remove("hidden")
+            list2.classList.remove("hidden")
+            options2.classList.add("activeOption2")
+          
+
+        }
+        else{
+            options2.classList.add("hidden")
+            list2.classList.add("hidden")
+            options2.classList.remove("activeOption2")
+
+        }
+    })
+
+
+
+    mazeOptions.addEventListener('click',()=>{
+        if(mazeOptions.classList.contains("highlight")){
+            mazeOptions.classList.remove("highlight")
+            mazeOptions.classList.add("hg")
+        }
+        else{
+            mazeOptions.classList.add("highlight")
+            mazeOptions.classList.remove("hg")
+        }
+        if(options3.classList.contains("hidden") && list.classList.contains("hidden")){
+            options3.classList.remove("hidden")
+            list3.classList.remove("hidden")
+            options3.classList.add("activeOption3")
+          
+
+        }
+        else{
+            options3.classList.add("hidden")
+            list3.classList.add("hidden")
+            options3.classList.remove("activeOption3")
+
+        }
+    })
+
+  
+
+    
+    algoSelect.forEach((li)=>{
+        li.addEventListener('click',()=>{
+            if(li.textContent=="Depth-first search"){
+                selectedAlgo="DFS"
+
+                
+            }
+            if(li.textContent=="Breath-first search"){
+                selectedAlgo="BFS"
+                
+
+
+            }
+            if(li.textContent=="DIJKSTRA's Algorithm"){
+                selectedAlgo="DJS"
+                
+
+            }
+            if(li.textContent=="A* star Algorithm"){
+                selectedAlgo="AST"
+                
+
+            }
+            if(li.textContent=="BackTracking Algorithm"){
+                selectedAlgo="BDFS"
+                
+
+            }
+
+            if(algoOptions.classList.contains("highlight")){
+                algoOptions.classList.remove("highlight")
+                algoOptions.classList.add("hg")
+            }
+            else{
+                algoOptions.classList.add("highlight")
+                algoOptions.classList.remove("hg")
+            }
+            if(options.classList.contains("hidden") && list.classList.contains("hidden")){
+                options.classList.remove("hidden")
+                list.classList.remove("hidden")
+                options.classList.add("activeOption")
+              
+    
+            }
+            else{
+                options.classList.add("hidden")
+                list.classList.add("hidden")
+                options.classList.remove("activeOption")
+    
+            }
+        })
+    })
+
+    mazeSelect.forEach((li)=>{
+
+        li.addEventListener("click",()=>{
+            recursiveMaze(grid,[strPoint[0],strPoint[1]],[endPoint[0],endPoint[1]])
+
+        })
+
+    })
+
     
 
+
+
+    visualizeBtn.addEventListener("click",()=>{
+        if(selectedAlgo=="DFS"){
+            runDFS()
+        }
+        if(selectedAlgo=="BFS"){
+            runBFS()
+        }
+        if(selectedAlgo=="DJS"){
+            runDijkstra()
+        }
+        if(selectedAlgo=="AST"){
+           runAstar()
+        }
+        if(selectedAlgo=="BDFS"){
+           runDFS()
+        }
+    
+
+    })
+
+    clearBtn.addEventListener("click",()=>{
+        clearBoard()
+    })
 
 
 
@@ -176,6 +346,8 @@ function setup(){
         
  
     } 
+
+    
 
     function clearBoard(){
         minHeap=new Heap()
@@ -523,6 +695,10 @@ function draw(){
                 
                // 52, 73, 94
                noStroke()
+            if((i+j)%4==0){
+                stroke(255)
+
+            }
                fill(52, 73, 94)
                rect(x,y,resolution,resolution)
 
@@ -626,6 +802,9 @@ async function rgbChange(){
 
 
 }
+
+
+
 
 async function dfs(r,c,grid,val=1,path){
    
@@ -1527,6 +1706,11 @@ function make2dArray(rows,cols){
     
 }
 
+
+
+
+
+
 class Matrix{
     constructor(value,row,col){
         this.value=value
@@ -1632,6 +1816,9 @@ class Matrix{
       if(mx>topX && my >topY && mx< bottomX && my < bottomY && !this.endPoint && !this.strPoint){
         
         this.value==1 ? this.value=0 : this.value=1
+       
+        console.log([this.i,this.j])
+        userInteractionArray.push([this.i,this.j])
   
       }
 
@@ -2156,6 +2343,339 @@ class Heap{
     }
 
 }
+
+
+const mazeArray=[
+    [ 1, 2 ], [ 2, 2 ],
+    [ 3, 2 ], [ 4, 2 ],
+    [ 2, 3 ], [ 2, 4 ],
+    [ 6, 1 ], [ 6, 2 ],
+    [ 6, 3 ], [ 6, 4 ],
+    [ 6, 5 ], [ 6, 6 ],
+    [ 6, 7 ], [ 5, 4 ],
+    [ 4, 4 ], [ 5, 6 ],
+    [ 4, 6 ], [ 1, 6 ],
+    [ 2, 6 ], [ 1, 8 ],
+    [ 2, 8 ],  [ 4, 8 ],
+    [ 4, 9 ],  [ 4, 10 ],
+    [ 3, 10 ], [ 2, 10 ],
+    [ 1, 10 ], [ 2, 11 ],
+    [ 2, 12 ], [ 3, 12 ],
+    [ 4, 12 ], [ 6, 8 ],
+    [ 6, 9 ],  [ 6, 10 ],
+    [ 6, 11 ], [ 6, 12 ],
+    [ 6, 13 ], [ 6, 14 ],
+    [ 5, 14 ], [ 4, 14 ],
+    [ 3, 14 ], [ 2, 14 ],
+    [ 6, 15 ], [ 6, 16 ],
+    [ 5, 16 ], [ 4, 16 ],
+    [ 3, 16 ], [ 2, 16 ],
+    [ 6, 17 ], [ 6, 18 ],
+    [ 6, 19 ], [ 6, 20 ],
+    [ 2, 18 ], [ 3, 18 ],
+    [ 4, 18 ], [ 4, 19 ],
+    [ 4, 20 ], [ 5, 20 ],
+    [ 3, 20 ], [ 2, 20 ],
+    [ 2, 21 ], [ 2, 22 ],
+    [ 4, 22 ], [ 5, 22 ],
+    [ 6, 22 ], [ 6, 23 ],
+    [ 6, 24 ], [ 6, 25 ],
+    [ 5, 24 ], [ 4, 24 ],
+    [ 3, 24 ], [ 2, 24 ],
+    [ 4, 26 ], [ 5, 26 ],
+    [ 6, 26 ], [ 6, 27 ],
+    [ 6, 28 ], [ 6, 29 ],
+    [ 6, 29 ], [ 6, 29 ],
+    [ 4, 27 ], [ 4, 28 ],
+    [ 2, 26 ], [ 1, 26 ],
+    [ 1, 28 ], [ 2, 28 ],
+    [ 1, 30 ], [ 2, 30 ],
+    [ 1, 31 ], [ 1, 32 ],
+    [ 2, 32 ], [ 6, 30 ],
+    [ 5, 30 ], [ 4, 30 ],
+    [ 6, 31 ], [ 6, 32 ],
+    [ 3, 32 ], [ 4, 32 ],
+    [ 1, 36 ], [ 2, 36 ],
+    [ 3, 36 ], [ 6, 33 ],
+    [ 6, 34 ], [ 6, 35 ],
+    [ 6, 36 ], [ 2, 33 ],
+    [ 2, 34 ], [ 3, 34 ],
+    [ 4, 34 ], [ 4, 36 ],
+    [ 6, 37 ], [ 6, 38 ],
+    [ 6, 39 ], [ 6, 40 ],
+    [ 5, 38 ], [ 4, 38 ],
+    [ 3, 38 ], [ 2, 38 ],
+    [ 1, 40 ], [ 2, 40 ],
+    [ 3, 40 ], [ 4, 40 ],
+    [ 6, 41 ], [ 6, 42 ],
+    [ 6, 43 ], [ 6, 44 ],
+    [ 5, 44 ], [ 4, 44 ],
+    [ 3, 44 ], [ 2, 44 ],
+    [ 2, 41 ], [ 2, 42 ],
+    [ 3, 42 ], [ 4, 42 ],
+    [ 6, 45 ], [ 6, 46 ],
+    [ 6, 47 ], [ 6, 48 ],
+    [ 5, 48 ], [ 4, 48 ],
+    [ 3, 48 ], [ 2, 48 ],
+    [ 4, 47 ], [ 4, 46 ],
+    [ 3, 46 ], [ 2, 46 ],
+    [ 6, 49 ], [ 6, 50 ],
+    [ 6, 51 ], [ 6, 52 ],
+    [ 4, 52 ], [ 3, 52 ],
+    [ 2, 52 ], [ 1, 52 ],
+    [ 2, 51 ], [ 2, 50 ],
+    [ 3, 50 ], [ 4, 50 ],
+    [ 4, 53 ], [ 4, 54 ],
+    [ 1, 54 ], [ 2, 54 ],
+    [ 6, 53 ], [ 6, 54 ],
+    [ 6, 55 ], [ 6, 56 ],
+    [ 5, 56 ], [ 4, 56 ],
+    [ 3, 56 ], [ 2, 56 ],
+    [ 1, 58 ], [ 2, 58 ],
+    [ 3, 58 ], [ 4, 58 ],
+    [ 6, 57 ], [ 6, 58 ],
+    [ 6, 59 ], [ 6, 60 ],
+    [ 3, 60 ], [ 4, 60 ],
+    [ 4, 61 ], [ 6, 61 ],
+    [ 2, 60 ], [ 8, 1 ],
+    [ 8, 2 ],  [ 8, 3 ],
+    [ 10, 2 ], [ 11, 2 ],
+    [ 12, 1 ], [ 12, 2 ],
+    [ 12, 3 ], [ 13, 2 ],
+    [ 14, 2 ], [ 15, 1 ],
+    [ 15, 2 ], [ 17, 2 ],
+    [ 18, 2 ], [ 19, 2 ],
+    [ 19, 3 ], [ 21, 2 ],
+    [ 8, 4 ],  [ 8, 5 ],
+    [ 8, 6 ],  [ 9, 4 ],
+    [ 10, 4 ], [ 9, 6 ],
+    [ 10, 6 ], [ 12, 4 ],
+    [ 12, 4 ], [ 12, 4 ],
+    [ 12, 5 ], [ 12, 6 ],
+    [ 12, 7 ], [ 13, 4 ],
+    [ 14, 4 ], [ 14, 5 ],
+    [ 14, 6 ], [ 14, 7 ],
+    [ 15, 4 ], [ 16, 4 ],
+    [ 17, 4 ], [ 16, 5 ],
+  [ 16, 6 ], [ 16, 6 ],
+  [ 16, 6 ], [ 18, 4 ],
+  [ 19, 4 ], [ 21, 4 ],
+  [ 21, 5 ], [ 21, 6 ],
+  [ 20, 6 ], [ 19, 6 ],
+  [ 18, 7 ], [ 18, 8 ],
+  [ 18, 9 ], [ 18, 9 ],
+  [ 18, 9 ], [ 19, 9 ],
+  [ 20, 9 ], [ 17, 9 ],
+  [ 16, 9 ],  [ 15, 9 ],
+  [ 14, 9 ],  [ 14, 10 ],
+  [ 14, 11 ], [ 8, 8 ],
+  [ 8, 9 ],   [ 8, 10 ],
+  [ 8, 11 ],  [ 7, 12 ],
+  [ 8, 12 ],  [ 9, 12 ],
+  [ 10, 12 ], [ 11, 12 ],
+  [ 12, 12 ], [ 15, 12 ],
+  [ 11, 11 ], [ 11, 10 ],
+  [ 10, 10 ], [ 11, 8 ],
+  [ 10, 8 ],  [ 12, 10 ],
+  [ 16, 12 ], [ 18, 12 ],
+  [ 19, 12 ], [ 21, 11 ],
+  [ 18, 11 ], [ 18, 10 ],
+  [ 8, 13 ],  [ 8, 14 ],
+  [ 11, 13 ], [ 11, 14 ],
+  [ 10, 14 ], [ 8, 16 ],
+  [ 9, 16 ],  [ 10, 16 ],
+  [ 11, 16 ], [ 11, 18 ],
+  [ 10, 18 ], [ 9, 18 ],
+  [ 8, 18 ],  [ 7, 18 ],
+  [ 8, 19 ],  [ 8, 20 ],
+  [ 10, 19 ], [ 10, 20 ],
+  [ 11, 20 ], [ 14, 13 ],
+  [ 14, 14 ], [ 14, 15 ],
+  [ 14, 16 ], [ 15, 14 ],
+  [ 16, 14 ], [ 17, 14 ],
+  [ 18, 14 ], [ 15, 16 ],
+  [ 16, 16 ], [ 18, 16 ],
+  [ 19, 16 ], [ 20, 17 ], [ 20, 16 ], [ 20, 15 ],
+  [ 20, 18 ], [ 21, 18 ],
+  [ 7, 22 ],  [ 8, 22 ],
+  [ 9, 22 ],  [ 10, 22 ],
+  [ 11, 22 ], [ 12, 22 ],
+  [ 18, 21 ], [ 18, 22 ],
+  [ 18, 23 ], [ 18, 24 ],
+  [ 17, 24 ], [ 16, 24 ],
+  [ 20, 20 ], [ 20, 20 ],
+  [ 20, 20 ], [ 20, 21 ],
+  [ 20, 22 ], [ 20, 23 ],
+  [ 21, 23 ], [ 19, 18 ],
+  [ 18, 18 ], [ 14, 17 ],
+  [ 12, 16 ], [ 14, 23 ],
+  [ 14, 24 ], [ 14, 24 ],
+  [ 14, 24 ], [ 14, 25 ],
+  [ 14, 26 ], [ 10, 23 ],
+  [ 10, 23 ], [ 10, 23 ],
+  [ 10, 24 ], [ 9, 24 ],
+  [ 8, 24 ],  [ 11, 24 ],
+  [ 12, 24 ], [ 7, 26 ],
+  [ 8, 26 ],  [ 10, 26 ],
+  [ 10, 27 ], [ 10, 28 ],
+  [ 9, 28 ],  [ 8, 28 ],
+  [ 7, 28 ],  [ 11, 26 ],
+  [ 12, 26 ], [ 11, 28 ],
+  [ 12, 28 ], [ 14, 27 ],
+  [ 14, 28 ], [ 16, 26 ],
+  [ 16, 27 ], [ 16, 28 ],
+  [ 16, 29 ], [ 16, 30 ],
+  [ 16, 31 ], [ 17, 30 ],
+  [ 18, 30 ], [ 19, 30 ],
+  [ 18, 25 ], [ 18, 26 ],
+  [ 18, 27 ], [ 19, 27 ],
+  [ 20, 27 ], [ 19, 25 ],
+  [ 20, 25 ], [ 19, 28 ],
+  [ 8, 30 ],  [ 9, 30 ],
+  [ 10, 30 ], [ 11, 30 ],
+  [ 12, 30 ], [ 13, 30 ],
+  [ 14, 30 ], [ 15, 30 ],
+  [ 20, 30 ], [ 21, 30 ],
+  [ 7, 32 ],  [ 8, 32 ],
+  [ 9, 32 ],  [ 10, 32 ],
+  [ 12, 31 ], [ 12, 32 ],
+  [ 12, 33 ], [ 12, 34 ],
+  [ 11, 34 ], [ 10, 34 ],
+  [ 9, 34 ],  [ 8, 34 ],
+  [ 12, 35 ], [ 12, 36 ],
+  [ 12, 37 ], [ 12, 38 ],
+  [ 12, 39 ], [ 11, 38 ],
+  [ 10, 38 ], [ 9, 38 ],
+  [ 8, 38 ],  [ 8, 37 ],
+  [ 8, 36 ],  [ 9, 36 ],
+  [ 12, 40 ], [ 8, 40 ],
+  [ 9, 40 ],  [ 10, 40 ],
+  [ 10, 41 ], [ 10, 42 ],
+  [ 10, 43 ], [ 9, 43 ],
+  [ 8, 43 ],  [ 7, 43 ],
+  [ 10, 44 ], [ 10, 45 ],
+  [ 10, 46 ], [ 10, 47 ],
+  [ 10, 48 ], [ 9, 48 ],
+  [ 8, 48 ],  [ 7, 45 ],
+  [ 8, 45 ],  [ 10, 49 ],
+  [ 10, 50 ], [ 7, 50 ],
+  [ 8, 50 ],  [ 11, 43 ],
+  [ 12, 43 ], [ 13, 43 ],
+  [ 14, 43 ], [ 15, 43 ],
+  [ 16, 43 ], [ 16, 32 ],
+  [ 16, 33 ], [ 14, 31 ],
+  [ 14, 32 ], [ 14, 33 ],
+  [ 14, 34 ], [ 14, 35 ],
+  [ 15, 35 ], [ 16, 35 ],
+  [ 13, 40 ], [ 14, 40 ],
+  [ 14, 39 ], [ 14, 38 ],
+  [ 14, 38 ], [ 14, 38 ],
+  [ 14, 38 ], [ 14, 38 ],
+  [ 14, 37 ], [ 16, 37 ],
+  [ 16, 38 ], [ 16, 39 ],
+  [ 15, 39 ], [ 18, 31 ],
+  [ 17, 33 ], [ 18, 33 ],
+  [ 19, 33 ], [ 19, 31 ],
+  [ 21, 32 ], [ 18, 35 ],
+  [ 19, 35 ], [ 20, 35 ],
+  [ 20, 36 ], [ 20, 37 ],
+  [ 19, 37 ], [ 21, 37 ],
+  [ 18, 39 ], [ 19, 39 ],
+  [ 19, 40 ], [ 19, 41 ],
+  [ 20, 41 ], [ 21, 41 ],
+  [ 19, 42 ], [ 19, 43 ],
+  [ 20, 43 ], [ 21, 43 ],
+  [ 18, 43 ], [ 16, 42 ],
+  [ 16, 41 ], [ 12, 44 ],
+  [ 12, 45 ], [ 12, 46 ],
+  [ 13, 46 ], [ 14, 46 ],
+  [ 15, 46 ], [ 17, 46 ],
+  [ 17, 47 ], [ 17, 48 ],
+  [ 9, 61 ],  [ 7, 59 ],
+  [ 12, 56 ], [ 12, 57 ],
+  [ 12, 58 ], [ 11, 57 ],
+  [ 12, 61 ], [ 12, 60 ],
+  [ 14, 59 ], [ 15, 59 ],
+  [ 16, 59 ], [ 16, 60 ],
+  [ 16, 61 ], [ 20, 54 ],
+  [ 20, 54 ], [ 21, 54 ], [ 16, 53 ], [ 16, 52 ],    [ 20, 11 ], [ 13, 19 ],
+  [ 14, 19 ], [ 15, 19 ],
+  [ 16, 19 ], [ 15, 20 ],
+  [ 15, 21 ], [ 17, 22 ],
+  [ 18, 47 ], [ 19, 47 ],
+  [ 20, 47 ], [ 19, 46 ],
+[ 19, 45 ], [ 15, 45 ],
+[ 17, 45 ], [ 19, 44 ],
+[ 20, 45 ], [ 13, 47 ],
+[ 13, 47 ], [ 13, 47 ],
+[ 13, 48 ], [ 13, 49 ],
+[ 12, 49 ], [ 14, 49 ],
+[ 15, 49 ], [ 16, 54 ],
+[ 16, 55 ], [ 17, 54 ],
+[ 18, 54 ], [ 17, 50 ],
+[ 18, 50 ], [ 19, 50 ],
+[ 19, 49 ], [ 20, 50 ],
+[ 21, 50 ], [ 13, 50 ],
+[ 13, 51 ], [ 13, 52 ],
+[ 13, 53 ], [ 12, 53 ],
+[ 11, 53 ], [ 10, 53 ],
+[ 9, 53 ],  [ 8, 53 ],
+[ 8, 52 ],  [ 12, 51 ],
+[ 10, 52 ], [ 10, 54 ],
+[ 10, 55 ], [ 9, 55 ],
+[ 8, 55 ],  [ 13, 57 ],
+[ 14, 57 ], [ 10, 57 ],
+[ 16, 58 ], [ 16, 57 ],
+[ 17, 57 ], [ 18, 57 ],
+[ 19, 57 ], [ 17, 59 ],
+[ 18, 59 ], [ 19, 59 ],
+[ 19, 60 ], [ 21, 59 ],
+[ 21, 57 ], [ 18, 56 ],
+[ 18, 52 ], [ 19, 52 ],
+[ 20, 52 ], [ 20, 51 ],
+[ 20, 51 ], [ 20, 51 ],
+[ 15, 54 ], [ 14, 56 ],
+[ 9, 60 ],  [ 9, 59 ],
+[ 7, 57 ],  [ 8, 57 ],
+[ 15, 50 ], [ 15, 48 ]
+
+]
+
+
+async function recursiveMaze(grid,start,end){
+    let ROWS=grid.length;
+    let COLS=grid[0].length
+
+    for(let i=0;i<ROWS;i++){
+        for(let j=0;j<COLS;j++){
+            if(i==0 || j==0 || i==ROWS-1 || j==COLS-1){
+                // if(!start.includes(i) && !start.includes(j) && !end.includes(j) && !end.includes(i)){
+                    await sleep(0.1)
+                    grid[i][j].value=1
+
+                // }
+                
+                
+            }
+        }
+    }
+
+    for(let [i,j] of mazeArray){
+        // if(!start.includes(i) && !start.includes(j) && !end.includes(j) && !end.includes(i)){
+            await sleep(0.1)
+            grid[i][j].value=1
+
+        // }
+    }
+    
+    for(let [i,j] of [start,end]){
+        grid[i][j].value=0
+
+    }
+
+
+}
+
 
 
 
