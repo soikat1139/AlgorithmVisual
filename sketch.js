@@ -30,7 +30,7 @@ let selectedAlgo;
 let userInteractionArray
 
 function preload() {
-    // Replace 'your-svg-url' with the actual URL of your SVG file
+    
     svgImage = loadImage('./Public/svgStart.svg', 'svg');
     flag = loadImage('./Public/flag.svg', 'svg');
   }
@@ -119,7 +119,7 @@ function setup(){
     const mazeSelect=document.querySelectorAll(".mz")
     const visualizeBtn=document.querySelector("#vsb")
     const clearBtn=document.querySelector("#clr")
-    const HeroText=document.querySelector("#HeroText")
+    const HeroTexts=document.querySelector("#HeroText")
 
 
 
@@ -208,6 +208,7 @@ function setup(){
         li.addEventListener('click',()=>{
             if(li.textContent=="Depth-first search"){
                 selectedAlgo="DFS"
+                
 
                 
             }
@@ -254,6 +255,16 @@ function setup(){
                 options.classList.remove("activeOption")
     
             }
+
+         if(HeroTexts.classList.contains("flag")){
+             HeroTexts.classList.remove("flag")
+
+        }
+
+
+            HeroTexts.innerHTML=`${selectedAlgo} Algorithm is selected `
+            HeroTexts.classList.add("beautify")
+
         })
     })
 
@@ -271,8 +282,16 @@ function setup(){
 
 
     visualizeBtn.addEventListener("click",()=>{
+
+        if(!selectedAlgo){
+            HeroTexts.innerHTML=`No Algorithm is selected.Please Select an Algorithm `
+            HeroTexts.classList.add("flag")
+
+        }
+       
         if(selectedAlgo=="DFS"){
             runDFS()
+            HeroTexts.innerHTML=`Depth first Search Algorithm Is a very popular algorithm `
         }
         if(selectedAlgo=="BFS"){
             runBFS()
