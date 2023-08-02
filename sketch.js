@@ -272,9 +272,35 @@ function setup(){
     mazeSelect.forEach((li)=>{
 
         li.addEventListener("click",()=>{
-            recursiveMaze(grid,[strPoint[0],strPoint[1]],[endPoint[0],endPoint[1]])
+
+            recursiveMaze(grid,[strPoint[0],strPoint[1]],[endPoint[0],endPoint[1]],clearBoard)
+
+
+            if(mazeOptions.classList.contains("highlight")){
+                mazeOptions.classList.remove("highlight")
+                mazeOptions.classList.add("hg")
+            }
+            else{
+                mazeOptions.classList.add("highlight")
+                mazeOptions.classList.remove("hg")
+            }
+            if(options3.classList.contains("hidden") && list.classList.contains("hidden")){
+                options3.classList.remove("hidden")
+                list3.classList.remove("hidden")
+                options3.classList.add("activeOption3")
+              
+    
+            }
+            else{
+                options3.classList.add("hidden")
+                list3.classList.add("hidden")
+                options3.classList.remove("activeOption3")
+    
+            }
 
         })
+
+  
 
     })
 
@@ -369,7 +395,7 @@ function setup(){
 
     
 
-    function clearBoard(){
+    async function clearBoard(){
      if(isMaze){
         for(let i =0;i<rows;i++){
             for(let j=0;j<cols;j++){
@@ -2676,9 +2702,11 @@ const mazeArray=[
 ]
 
 
-async function recursiveMaze(grid,start,end){
+async function recursiveMaze(grid,start,end,clearBoard){
+    
     let ROWS=grid.length;
     let COLS=grid[0].length
+   await clearBoard()
     isMaze=true
 
     for(let i=0;i<ROWS;i++){
