@@ -271,9 +271,10 @@ function setup(){
 
     mazeSelect.forEach((li)=>{
 
-        li.addEventListener("click",()=>{
+        li.addEventListener("click",async ()=>{
+            await clearBoard()
 
-            recursiveMaze(grid,[strPoint[0],strPoint[1]],[endPoint[0],endPoint[1]],clearBoard)
+            recursiveMaze(grid,[strPoint[0],strPoint[1]],[endPoint[0],endPoint[1]],)
 
 
             if(mazeOptions.classList.contains("highlight")){
@@ -2706,7 +2707,7 @@ async function recursiveMaze(grid,start,end,clearBoard){
     
     let ROWS=grid.length;
     let COLS=grid[0].length
-   await clearBoard()
+   
     isMaze=true
 
     for(let i=0;i<ROWS;i++){
