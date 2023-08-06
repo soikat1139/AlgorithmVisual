@@ -52,7 +52,15 @@ const modelContext=[
        
 
 
-    }
+    },    
+    {
+        page:5,
+        headerText:"About The Author",
+        modalPRMText:"There is Nothing Much To say about myself.",
+        
+
+
+    },
 
 ]
 
@@ -97,7 +105,8 @@ nextBtn.addEventListener("click",()=>{
         modelImg.classList.add("model-img-sp")
 
     }
-    else if(modelContext[pagePosition].page==4){
+    else if(modelContext[pagePosition].page===4)
+    {
         modalBody.removeChild(modelImg)
         modalHeader.innerHTML=modelContext[pagePosition].headerText
         modalPRMText.innerHTML=modelContext[pagePosition].modalPRMText
@@ -107,6 +116,27 @@ nextBtn.addEventListener("click",()=>{
         <li>BFS:Also known as Breadth-first-Search. This algorithm is slightly better than DFS .Instead of going through a node once at a time .It visits every surrounding nodes that it can reach</li>
         <li>DIJKSTRA'S ALgorithm:This is a modified version of BFS algorithm.This algorithm works on priority basis.It works effectively on a weighted graph. In a unweighted graph it works like a BFS algorithm</li>
         <li>A* search: This algorithm is my Love.This is the most effective algorithm to find the shortest path. It uses heuristic to calculate the distance</li>
+        </ul>
+        
+        `
+
+
+    }
+
+    else if(modelContext[pagePosition].page===5){
+        console.log("from 5")
+        // modalBody.removeChild(modelImg)
+        modalHeader.innerHTML=modelContext[pagePosition].headerText
+        modalPRMText.innerHTML=modelContext[pagePosition].modalPRMText
+        modalSCNText.innerHTML=`
+        <p>Here are some links to find me: </p>
+        <ul>
+        <li>Portfolio: <a>https://www.soikatahamed.live/</a> </li>
+        <li>Github: <a>https://github.com/soikat1139</a></li>
+        </ul>
+        
+         
+
         </ul>
         
         `
@@ -142,7 +172,13 @@ previousBtn.addEventListener("click",()=>{
     }
     pageId.innerHTML=`${pagePosition+1}/${modelContext.length}`
 
+
+
+
+
     if(modelContext[pagePosition].page==3){
+        modalBody.appendChild(modelImg)
+
         modalHeader.innerHTML=modelContext[pagePosition].headerText
         modalPRMText.innerHTML=modelContext[pagePosition].modalPRMText
         modalSCNText.innerHTML=modelContext[pagePosition].modalSCNText
@@ -152,7 +188,46 @@ previousBtn.addEventListener("click",()=>{
         modelImg.classList.add("model-img-sp")
 
     }
+    else if(modelContext[pagePosition].page===4)
+    {
+        modalBody.removeChild(modelImg)
+        modalHeader.innerHTML=modelContext[pagePosition].headerText
+        modalPRMText.innerHTML=modelContext[pagePosition].modalPRMText
+        modalSCNText.innerHTML=`
+        <ul>
+        <li>DFS:DFS known as Depth-First-Search Algorithm.This is a Brute Force To find the path.This is not really that much effective.It goes through basically every Node to find the goal </li>
+        <li>BFS:Also known as Breadth-first-Search. This algorithm is slightly better than DFS .Instead of going through a node once at a time .It visits every surrounding nodes that it can reach</li>
+        <li>DIJKSTRA'S ALgorithm:This is a modified version of BFS algorithm.This algorithm works on priority basis.It works effectively on a weighted graph. In a unweighted graph it works like a BFS algorithm</li>
+        <li>A* search: This algorithm is my Love.This is the most effective algorithm to find the shortest path. It uses heuristic to calculate the distance</li>
+        </ul>
+        
+        `
+
+
+    }
+
+    else if(modelContext[pagePosition].page===5){
+        console.log("from 5")
+        // modalBody.removeChild(modelImg)
+        modalHeader.innerHTML=modelContext[pagePosition].headerText
+        modalPRMText.innerHTML=modelContext[pagePosition].modalPRMText
+        modalSCNText.innerHTML=`
+        <p>Here are some links to find me: </p>
+        <ul>
+        <li>Portfolio: <a>https://www.soikatahamed.live/</a> </li>
+        <li>Github: <a>https://github.com/soikat1139</a></li>
+        </ul>
+        
+         
+
+        </ul>
+        
+        `
+
+
+    }
     else{
+        modalBody.appendChild(modelImg)
         modalHeader.innerHTML=modelContext[pagePosition].headerText
         modalPRMText.innerHTML=modelContext[pagePosition].modalPRMText
         modalSCNText.innerHTML=modelContext[pagePosition].modalSCNText
@@ -160,6 +235,7 @@ previousBtn.addEventListener("click",()=>{
     
         modelImg.setAttribute("src",modelContext[pagePosition].imgLink)
     }
+    
     
 
     
