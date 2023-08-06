@@ -108,6 +108,44 @@
         <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M200-120v-680h343l19 86h238v370H544l-18.933-85H260v309h-60Zm300-452Zm95 168h145v-250H511l-19-86H260v251h316l19 85Z"/></svg>
         <p>Goal Icon</p>
        </div>
+
+       <div class="spec">
+        <!-- <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M200-120v-680h343l19 86h238v370H544l-18.933-85H260v309h-60Zm300-452Zm95 168h145v-250H511l-19-86H260v251h316l19 85Z"/></svg> -->
+        <div id="wall">
+
+        </div>
+        <p>Wall Node</p>
+       </div>
+
+       <div class="spec">
+        <!-- <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M200-120v-680h343l19 86h238v370H544l-18.933-85H260v309h-60Zm300-452Zm95 168h145v-250H511l-19-86H260v251h316l19 85Z"/></svg> -->
+        <div id="Unvisited">
+
+        </div>
+        <p>Unvisited Node</p>
+       </div>
+
+       <div class="spec">
+        <!-- <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M200-120v-680h343l19 86h238v370H544l-18.933-85H260v309h-60Zm300-452Zm95 168h145v-250H511l-19-86H260v251h316l19 85Z"/></svg> -->
+        <div id="visited1">
+
+        </div>
+        <div id="visited2">
+
+        </div>
+        <div id="visited3">
+
+        </div>
+        <p>Visited Node</p>
+       </div>
+       
+       <div class="spec">
+        <!-- <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M200-120v-680h343l19 86h238v370H544l-18.933-85H260v309h-60Zm300-452Zm95 168h145v-250H511l-19-86H260v251h316l19 85Z"/></svg> -->
+        <div id="Shortest">
+
+        </div>
+        <p>Shortest Path</p>
+       </div>
    
 
 
@@ -177,6 +215,47 @@
     </div>
 
 
+    <!-- Modal Sections -->
+    <!-- class="hide" -->
+
+    <div id="modal" class="modal">
+      <div id="modal-content">
+        <div id="modal-header">
+          <h1 id="modalHead">Welcome To Algorithm Visualizer</h1>
+          <span id="close">&times;</span>
+          <span id="pageId"></span>
+          
+        </div>
+        <div id="modal-body">
+          <p id="modal-prm-text">
+            This is a web application that visualizes different algorithms. It is a project that I have been working on for a while now. I hope you enjoy it.
+          
+          </p>
+          <div id="model-scnd-text"> Click Skip Button To skip Tutorial .To continue Tutorial Click Next Button</div>
+          <img src="./Public/algorithm.jpg" alt="algoImg" id="modal-Img">
+         
+        </div>
+
+
+        <div id="modal-footer">
+          <button id="skip" class="btn">Skip</button>
+          <div>
+            <button id="previous" class="btn">Previous</button>
+            <button id="next" class="btn">Next</button>
+            
+          </div>
+          
+        </div>
+      </div>
+
+
+    
+    
+    </div>
+
+
+
+
  
 
 
@@ -184,6 +263,8 @@
 
     <!-- <button id="BFS">BFS Algorithm</button>
     <button id="speed">Fast</button> -->
+
+    <script src="main.js"></script>
 
     <script src="sketch.js"></script>
   </body>
