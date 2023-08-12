@@ -331,7 +331,7 @@ function setup(){
            runAstar()
         }
         if(selectedAlgo=="BDFS"){
-           runDFS()
+           dfsForMaze()
         }
     
 
